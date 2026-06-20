@@ -692,8 +692,8 @@ body[data-theme="dark"] .ghost {
 
 .drop-filled {
   border-style: solid;
-  border-color: var(--ink);
-  color: var(--ink);
+  border-color: var(--lime);
+  color: #0a0a0a;
   background: var(--lime);
 }
 
