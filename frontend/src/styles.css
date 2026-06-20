@@ -439,7 +439,7 @@ body[data-theme="dark"] .ghost {
   max-width: 1340px;
   margin: 0 auto;
   padding: clamp(40px, 7vw, 110px) clamp(20px, 4vw, 48px) clamp(30px, 5vw, 70px);
-  scroll-margin-top: 80px;
+  scroll-margin-top: -40px;
 }
 
 .tool-head {
@@ -1390,4 +1390,43 @@ body[data-theme="dark"] .ghost {
   background: var(--lime);
   border-color: var(--lime);
   color: #0a0a0a;
+}
+
+.hero-eqs {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-eq {
+  position: absolute;
+  white-space: nowrap;
+  color: var(--ink);
+  opacity: 0.07;
+  line-height: 1;
+}
+
+.hero-eq-inner {
+  display: inline-block;
+  animation-name: heroFloat;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes heroFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-16px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-eq-inner {
+    animation: none;
+  }
 }

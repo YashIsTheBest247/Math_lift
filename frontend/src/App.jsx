@@ -3,6 +3,7 @@ import Form from "./components/Form.jsx";
 import Results from "./components/Results.jsx";
 import VideoIntro from "./components/VideoIntro.jsx";
 import WakeLoader from "./components/WakeLoader.jsx";
+import HeroEquations from "./components/HeroEquations.jsx";
 import { processPdf } from "./api.js";
 
 const reduceMotion =
@@ -108,13 +109,14 @@ export default function App() {
               {dark ? "☼" : "☾"}
             </button>
             <button className="pill-cta" onClick={scrollToTool}>
-              Run <span className="arrow">↗</span>
+              Run 
             </button>
           </div>
         </nav>
       </header>
 
       <section className="hero">
+        <HeroEquations />
         <div className="hero-grid">
           <aside className="promo">
             <div className="promo-top">
