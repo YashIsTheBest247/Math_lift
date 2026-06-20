@@ -20,6 +20,7 @@ export default function App() {
   const [error, setError] = useState("");
   const [dark, setDark] = useState(false);
   const [videoDone, setVideoDone] = useState(reduceMotion);
+  const [menuOpen, setMenuOpen] = useState(false);
   const toolRef = useRef(null);
   const resultRef = useRef(null);
   const footerRef = useRef(null);
@@ -86,10 +87,37 @@ export default function App() {
               {dark ? "☼" : "☾"}
             </button>
             <button className="pill-cta" onClick={scrollToTool}>
-              Run 
+              Run
+            </button>
+            <button
+              className={menuOpen ? "nav-toggle is-open" : "nav-toggle"}
+              onClick={() => setMenuOpen((open) => !open)}
+              aria-label="Menu"
+              aria-expanded={menuOpen}
+            >
+              <span />
+              <span />
+              <span />
             </button>
           </div>
         </nav>
+
+        {menuOpen ? (
+          <div className="nav-menu">
+            {links.map((link) => (
+              <button
+                key={link.label}
+                className="nav-menu-link"
+                onClick={() => {
+                  link.action();
+                  setMenuOpen(false);
+                }}
+              >
+                {link.label}
+              </button>
+            ))}
+          </div>
+        ) : null}
       </header>
 
       <section className="hero">
