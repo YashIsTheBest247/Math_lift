@@ -6,7 +6,7 @@ import WakeLoader from "./components/WakeLoader.jsx";
 import HeroEquations from "./components/HeroEquations.jsx";
 import FeatureShowcase from "./components/FeatureShowcase.jsx";
 import Typewriter from "./components/Typewriter.jsx";
-import { processPdf } from "./api.js";
+import { apiUrl, processPdf } from "./api.js";
 
 const HERO_WORDS = ["scales", "renders", "publishes", "transforms", "ships", "automates"];
 
@@ -39,7 +39,7 @@ export default function App() {
       try {
         const controller = new AbortController();
         const abort = window.setTimeout(() => controller.abort(), 4000);
-        const response = await fetch("/api/health", { signal: controller.signal });
+        const response = await fetch(apiUrl("/api/health"), { signal: controller.signal });
         window.clearTimeout(abort);
         if (response.ok) {
           if (active) {
