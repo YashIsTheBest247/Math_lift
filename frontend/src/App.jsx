@@ -4,6 +4,7 @@ import Results from "./components/Results.jsx";
 import VideoIntro from "./components/VideoIntro.jsx";
 import WakeLoader from "./components/WakeLoader.jsx";
 import HeroEquations from "./components/HeroEquations.jsx";
+import FeatureShowcase from "./components/FeatureShowcase.jsx";
 import { processPdf } from "./api.js";
 
 const reduceMotion =
@@ -11,12 +12,33 @@ const reduceMotion =
   window.matchMedia &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+const INTRO_KEY = "mathlift_intro_at";
+const INTRO_TTL = 24 * 60 * 60 * 1000;
+
+function introPlayedRecently() {
+  try {
+    const stored = Number(window.localStorage.getItem(INTRO_KEY) || 0);
+    return stored > 0 && Date.now() - stored < INTRO_TTL;
+  } catch (caught) {
+    void caught;
+    return false;
+  }
+}
+
+function markIntroPlayed() {
+  try {
+    window.localStorage.setItem(INTRO_KEY, String(Date.now()));
+  } catch (caught) {
+    void caught;
+  }
+}
+
 export default function App() {
   const [busy, setBusy] = useState(false);
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [dark, setDark] = useState(false);
-  const [videoDone, setVideoDone] = useState(reduceMotion);
+  const [videoDone, setVideoDone] = useState(reduceMotion || introPlayedRecently());
   const [backendReady, setBackendReady] = useState(false);
   const toolRef = useRef(null);
   const resultRef = useRef(null);
@@ -65,8 +87,13 @@ export default function App() {
     footerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
+  function scrollToFeatures() {
+    document.getElementById("features")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   const links = [
     { label: "Extract", action: scrollToTool },
+    { label: "Features", action: scrollToFeatures },
     { label: "About", action: scrollToFooter },
   ];
 
@@ -89,7 +116,14 @@ export default function App() {
 
   return (
     <div className={ready ? "page is-ready" : "page"}>
-      {!videoDone ? <VideoIntro onComplete={() => setVideoDone(true)} /> : null}
+      {!videoDone ? (
+        <VideoIntro
+          onComplete={() => {
+            markIntroPlayed();
+            setVideoDone(true);
+          }}
+        />
+      ) : null}
       {videoDone && !backendReady ? <WakeLoader /> : null}
 
       <header className="nav-wrap">
@@ -181,8 +215,10 @@ export default function App() {
         </div>
       </section>
 
+      <FeatureShowcase />
+
       <footer className="footer" ref={footerRef}>
-        <span className="section-tag tag-invert">03 — Studio</span>
+        <span className="section-tag tag-invert">04 — Studio</span>
         <h2 className="footer-title">
           Ready to<br />extract?
         </h2>
