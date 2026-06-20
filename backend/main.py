@@ -10,9 +10,12 @@ load_dotenv()
 
 app = FastAPI(title="Mathlift Extraction API")
 
+_cors = os.getenv("CORS_ORIGINS", "*").strip()
+allow_origins = ["*"] if _cors in ("", "*") else [o.strip() for o in _cors.split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allow_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
